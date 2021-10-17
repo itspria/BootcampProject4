@@ -54,6 +54,7 @@ def GetMoviesByUserRating(movieName):
     knn.fit(csr_data)     
 
     reccomendCount = 8
+    listing = []
     movieList = movies[movies['title'].str.contains(movieName)]  
     if len(movieList):        
         movie_id= movieList.iloc[0]['movieId']
@@ -68,8 +69,8 @@ def GetMoviesByUserRating(movieName):
         df = pd.DataFrame(recMoviesList,index=range(1,reccomendCount+1))
         df['Distance'] = pd.to_numeric(df['Distance'])
         df= df.sort_values('Distance')
+        listing = df['Title']
     
-    listing = df['Title']
     return listing
 
 def GetMoviesByGenre(movieName):
