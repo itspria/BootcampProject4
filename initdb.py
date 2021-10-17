@@ -2,11 +2,40 @@ import pandas as pd
 import numpy as np
 from scipy.sparse import csr_matrix
 from sklearn.neighbors import NearestNeighbors
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity, linear_kernel
+
 
 def GetMoviesByDescription(movieName):
     movie_list=[]
+
+    csv_path = "cleaned data/movies.csv"
+    df = pd.read_csv(csv_path)
+    df['description'] = df['description'].fillna('')
+    #create the matrix 
+    tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
+    tfidf_matrix = tf.fit_transform(df['description'])
+
+    #calaculate the  Cosine Similarity Score
+    cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+
+    md = df.reset_index()
+    titles = df['title']
+    indices = pd.Series(df.index, index=df['title'])
+
+    idx = indices[movieName]
+    sim_scores = list(enumerate(cosine_sim[idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    sim_scores = sim_scores[1:31]
+    movie_indices = [i[0] for i in sim_scores]
+    recdf = titles.iloc[movie_indices]
+    count = 0
+    for index, value in recdf.items():
+        count = count + 1
+        movie_list.append(value)
+        if(count == 8):
+            break
+    
     return movie_list
 
 def GetMoviesByUserRating(movieName):
@@ -69,7 +98,7 @@ def GetMoviesByGenre(movieName):
     similar_movie_indexes.remove(movie_index)
 
     movie_list=[]
-    for i in range(10):
+    for i in range(8):
         movie_list.append(genre_data.index[similar_movie_indexes[i]])
 
     return movie_list
