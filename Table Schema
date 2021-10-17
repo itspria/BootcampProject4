@@ -1,0 +1,35 @@
+DROP TABLE movies_and_ratings;
+
+CREATE TABLE movies_and_ratings (
+	imdb_title_id TEXT PRIMARY KEY,
+	title TEXT,
+	year TEXT,
+	genre TEXT,
+	duration INT,
+	country TEXT,
+	language TEXT,
+	director TEXT,
+	writer TEXT,
+	production_company TEXT,
+	actors TEXT,
+	description TEXT,
+	avg_vote FLOAT
+);
+
+DROP TABLE movies;
+
+CREATE TABLE movies (
+	movieId INT PRIMARY KEY,
+	title TEXT,
+	genres TEXT
+);
+
+
+DROP TABLE ratings;
+
+CREATE TABLE ratings (
+	userId INT,
+	movieId INT,
+	rating FlOAT
+);
+	

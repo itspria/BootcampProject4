@@ -233,10 +233,10 @@
             <div class="row">
                 <div class="col-lg-6 col-xl-5">
                     <div class="text-container">
-                        <h2>Other Model 1: Movie Description Based Recommender (Term Frequency)</h2>
-                        <p>Term frequency answers the question of, how many times does this word appear in this document among the number of times all words appear in this document? In other words, how important is this word to this specific document?
+                        <h2>Content Based Filtering by Genre and Description</h2>
+                        <p>Content based filtering is a technique that uses feature similarities to make decisions. Content based filtering is often used for systems that recommend or make recommendations. In our case we used a content based filtering system to check for similarities between genres of movies to make recommendations. We also used the same approach to make recommendations based on similarities in movie descriptions. In the case of movie description based filtering term frequency was used. Term frequency answers the question of, how many times does this word appear in this document among the number of times all words appear in this document? In other words, how important is this word to this specific document? 
 </p>
-                        <a class="read-more no-line green" href="https://towardsdatascience.com/how-tf-idf-works-3dbf35e568f0">Learn more <span class="fas fa-long-arrow-alt-right"></span></a>
+                        <a class="read-more no-line green" href="https://towardsdatascience.com/how-tf-idf-works-3dbf35e568f0">Learn more about Content Based Filtering <span class="fas fa-long-arrow-alt-right"></span></a>
                     </div> <!-- end of text-container -->
                 </div> <!-- end of col -->
                 <div class="col-lg-6 col-xl-7">
@@ -263,9 +263,10 @@
                 </div> <!-- end of col -->
                 <div class="col-lg-6 col-xl-5">
                     <div class="text-container">
-                        <h2>Other Model 2</h2>
-                        <p>model based on genre</p>
-                        <a class="btn-solid-reg" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Modal</a> <a class="btn-outline-reg" href="article.html">Details</a>
+                        <h2>Unsupervised Learning: KNN Model</h2>
+                        <p>In our second recommender model we used an unsupervised KNN approach to recommend movies based on the ratings they were given by users. In this instance we used the ratings feature and user information to predict a movie a user would like based on the rating that was given to a movie by other users. When a movie was given to this model it would compare the ratings of the movie to the clusters that it had created and find the nearest neighbour movie to the movie you searched. Other features besides ratings could have been used to create clusters. </p>
+                        <a class="read-more no-line green" href="https://towardsdatascience.com/building-a-k-nearest-neighbors-k-nn-model-with-scikit-learn-51209555453a">Learn more about KNN<span class="fas fa-long-arrow-alt-right"></span></a>
+                       
                     </div> <!-- end of text-container -->
                 </div> <!-- end of col -->
             </div> <!-- end of row -->
@@ -280,26 +281,18 @@
             <div class="row">
                 <div class="col-lg-6 col-xl-5">
                     <div class="text-container">
-                        <h2>Model 3</h2>
-                        <ul class="list-unstyled li-space-lg">
-                            <li class="d-flex">
-                                <i class="fas fa-square"></i>
-                                <div class="flex-grow-1">She alteration everything sympathize impossible many more words should be here his get compliment</div>
-                            </li>
-                            <li class="d-flex">
-                                <i class="fas fa-square"></i>
-                                <div class="flex-grow-1">Collected few extremity suffering met had sportsman. By some more spite about do of do allow blush</div>
-                            </li>
-                            <li class="d-flex">
-                                <i class="fas fa-square"></i>
-                                <div class="flex-grow-1">Additions in conveying or collected objection in. Suffer few desire wonder her object hardly nearer</div>
-                            </li>
+                        <h2>Supervised Learning: SVD</h2>
+                        <p>We also created a supervised learning model that predicts the rating of a movie. We used Singular Value Decomposition Matrix Factorization (SVD MF); using surprise python skicit. Singular Value Decomposition (SVD) is a widely used technique to decompose a matrix into several component matrices, exposing many of the useful and interesting properties of the original matrix. Matrix factorization is a class of collaborative filtering algorithms used in recommender systems. Matrix factorization algorithms work by decomposing the user-item interaction matrix into the product of two lower dimensionality rectangular matrices. The XGBoost Algorithm was used later on and fitted to this model. XGBoost is an implementation of gradient boosted decision trees designed for speed and performance.</p>
+                        <a class="read-more no-line green" href="http://surpriselib.com/">Learn more about Surprise <span class="fas fa-long-arrow-alt-right"></span></a>
+                        <br>
+
+                        <a class="read-more no-line green" href="https://github.com/dmlc/xgboost">Learn more about XGBoost <span class="fas fa-long-arrow-alt-right"></span></a>
+                       
                         </ul>
                     </div> <!-- end of text-container -->
                 </div> <!-- end of col -->
                 <div class="col-lg-6 col-xl-7">
-                    <div class="image-container">
-                        <img class="img-fluid" src="images/project-3.jpg" alt="alternative">
+                   
                     </div> <!-- end of image-container -->
                 </div> <!-- end of col -->
             </div> <!-- end of row -->
