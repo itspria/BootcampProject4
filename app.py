@@ -1,7 +1,8 @@
 # import necessary libraries
 #from models import create_classes
 import initdb
-
+import pandas as pd
+import numpy
 import os
 from flask import (
     Flask,
@@ -27,8 +28,34 @@ def recommend(movieName):
     results1 = initdb.GetMoviesByUserRating(movieName)
     results2 = initdb.GetMoviesByGenre(movieName)
     results3 = initdb.GetMoviesByDescription(movieName)
+    predict = initdb.GetPredictionsForMovie(movieName)
+    predictions = []
+    for key,value in predict.items():
+        txt = f'{key}: {value}'
+        predictions.append(txt)
     
-    return render_template("index.html", listings1=results1, listings2=results2, listings3=results3)
+    return render_template("index.html", listings1=results1, listings2=results2, listings3=results3, movie="for " + movieName, predictions=predictions)
+
+#@app.route("/search/<movieName>/<userid>")
+@app.route("/usersearch", methods=['GET'])
+def recommendwithuser():
+    movieName = request.args.get('movieName', None) # use default value repalce 'None'
+    userid = request.args.get('userid', None)
+
+    print(f"Collecting recommendations for the movie: {movieName} and user: {userid}")
+
+    results1 = initdb.GetMoviesByUserRating(movieName)
+    results2 = initdb.GetMoviesByGenre(movieName)
+    results3 = initdb.GetMoviesByDescription(movieName)
+
+    predict = initdb.GetPredictions(movieName, userid)
+    displaytxt = f"for {movieName} and user {userid}"
+    predictions = []
+    for key,value in predict.items():
+        txt = f'{key}: {value}'
+        predictions.append(txt)
+
+    return render_template("index.html", listings1=results1, listings2=results2, listings3=results3, movie=displaytxt, predictions=predictions)
 
 @app.route("/rating")
 def chart1():
@@ -44,3 +71,4 @@ def chart3():
 
 if __name__ == "__main__":
     app.run()
+

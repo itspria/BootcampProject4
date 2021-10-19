@@ -23,19 +23,21 @@ def GetMoviesByDescription(movieName):
     titles = df['title']
     indices = pd.Series(df.index, index=df['title'])
 
-    idx = indices[movieName]
-    sim_scores = list(enumerate(cosine_sim[idx]))
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    sim_scores = sim_scores[1:31]
-    movie_indices = [i[0] for i in sim_scores]
-    recdf = titles.iloc[movie_indices]
-    count = 0
-    for index, value in recdf.items():
-        count = count + 1
-        movie_list.append(value)
-        if(count == 8):
-            break
-    
+    try:
+        idx = indices[movieName]
+        sim_scores = list(enumerate(cosine_sim[idx]))
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+        sim_scores = sim_scores[1:31]
+        movie_indices = [i[0] for i in sim_scores]
+        recdf = titles.iloc[movie_indices]
+        count = 0
+        for index, value in recdf.items():
+            count = count + 1
+            movie_list.append(value)
+            if(count == 8):
+                break
+    except:
+        movie_list.append("No Recommendation available.")
     return movie_list
 
 def GetMoviesByUserRating(movieName):
@@ -104,5 +106,50 @@ def GetMoviesByGenre(movieName):
 
     return movie_list
 
+def GetPredictionsForMovie(moviename):
+    complete_df = pd.read_csv("cleaned data/complete_df_with_predictions.csv")
 
+    mv = complete_df.loc[complete_df['title'].str.contains(moviename),['title']]
+    movie = mv.head(1)
+    names = movie.to_numpy()
+    name = names[0][0]
+
+    #based on all the users in the dataframe and their predictions what is the average rating the movie will get
+    movie_rating=round((complete_df.loc[complete_df['title']==name,['predicted rating']].values).mean(),2)
+    
+    #from data already available what is the average of the movie
+    movie_gavg=round((complete_df.loc[complete_df['title']==name,['MAvg']].values).mean(),2)
+    
+    percdiff = round(((movie_rating-movie_gavg)/movie_gavg*100),2)
+    
+    summary = {'Predicted Rating': movie_rating, 'Actual Rating': movie_gavg ,"Percentage Difference%":percdiff}            
+    return summary
+
+def GetPredictions(moviename, userid):
+    complete_df = pd.read_csv("cleaned data/complete_df_with_predictions.csv")
+
+    try:
+        mv = complete_df.loc[complete_df['title'].str.contains(moviename),['title']]
+        movie = mv.head(1)
+        names = movie.to_numpy()
+        name = names[0][0]
+        
+        #based on users past ratings what is the prediction for a particular movie
+        pred_rating=round(complete_df.loc[(complete_df['user']==userid) & (complete_df['title']==name),['predicted rating']].values[0][0],2)
+    
+        #from data already available what is the average of the movie
+        user_rating=round(complete_df.loc[(complete_df['user']==userid) & (complete_df['title']==name),['rating']].values[0][0],2)
+  
+        percdiff = round(((pred_rating-user_rating)/user_rating*100),2)
+    
+        summary = {'Predicted Rating': pred_rating, 'Actual Rating': user_rating ,"Percentage Difference%":percdiff}           
+        return summary
+    except:
+        pred_rating=0
+        user_rating=0  
+        percdiff = 0    
+        summary = {'Predicted Rating': pred_rating, 'Actual Rating': user_rating ,"Percentage Difference%":percdiff}           
+    return summary
+
+    
 
