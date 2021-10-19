@@ -53,7 +53,9 @@ def recommendwithuser():
     predictions = []
     for key,value in predict.items():
         txt = f'{key}: {value}'
+        print (f"text {txt}")
         predictions.append(txt)
+
 
     return render_template("index.html", listings1=results1, listings2=results2, listings3=results3, movie=displaytxt, predictions=predictions)
 

@@ -127,12 +127,14 @@ def GetPredictionsForMovie(moviename):
 
 def GetPredictions(moviename, userid):
     complete_df = pd.read_csv("cleaned data/complete_df_with_predictions.csv")
-
+    #print(complete_df.head())
+    userid=int(userid)
     try:
         mv = complete_df.loc[complete_df['title'].str.contains(moviename),['title']]
         movie = mv.head(1)
         names = movie.to_numpy()
         name = names[0][0]
+        #print(name)
         
         #based on users past ratings what is the prediction for a particular movie
         pred_rating=round(complete_df.loc[(complete_df['user']==userid) & (complete_df['title']==name),['predicted rating']].values[0][0],2)
@@ -148,8 +150,21 @@ def GetPredictions(moviename, userid):
         pred_rating=0
         user_rating=0  
         percdiff = 0    
-        summary = {'Predicted Rating': pred_rating, 'Actual Rating': user_rating ,"Percentage Difference%":percdiff}           
+                    
+        #based on all the users in the dataframe and their predictions what is the average rating a user gives
+        user_rating=round((complete_df.loc[complete_df['user']==userid,['predicted rating']].values).mean(),2)
+        
+        #from data already available what is the average of the movie
+        user_uavg=round((complete_df.loc[complete_df['user']==userid,['UAvg']].values).mean(),2)
+        
+        percdiff = round(((user_rating-user_uavg)/user_uavg*100),2)
+
+        print ("this user has not rated this movie")
+        summary = {'Status': "this user has not rated this movie, showing a prediction of what this user is likely to predict",'Predicted Rating': user_rating, 'Actual Rating': user_uavg ,"Percentage Difference%":percdiff}           
     return summary
+
+
+   
 
     
 
