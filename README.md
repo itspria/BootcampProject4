@@ -23,7 +23,7 @@ Tableau was used for preparing visualizations
 - Supervised Learning (get predicted movie rating)
   - Singular Value Decomposition Matrix Factorization (SVD MF); using surprise python scikit
   - XGBoost Algorithm (XGBoost is an implementation of gradient boosted decision trees designed for speed and performance)
-  - 
+  
 #### Model Optimization
 - SVD MF
   The starting RMSE for SVD MF was 0.65, and MAE is 0.50. With optimization we were able to reduce it RMSE to 0.28 and MAE to 0.18.
