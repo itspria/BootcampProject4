@@ -32,3 +32,5 @@ Tableau was used for preparing visualizations
   
 #### Deployment to the Web
   https://movie-recommender-2021.herokuapp.com/
+
+![Homescreen](https://github.com/itspria/BootcampProject1/blob/main/images/home.PNG)
